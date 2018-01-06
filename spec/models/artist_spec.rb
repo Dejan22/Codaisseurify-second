@@ -11,14 +11,16 @@ RSpec.describe Artist, type: :model do
     end
 
   describe "Check Song data" do
-    song = Song.new(name: nil, artist: nil)
+    song = Song.new(title: nil, artist: nil)
 
     it "Song is invalid without a name" do
       song.valid?
-      expect(song.errors).to have_key(:name)
+      expect(song.errors).to have_key(:title)
     end
     it "Song is invalid without a artist" do
       song.valid?
       expect(song.errors).to have_key(:artist)
     end
   end
+  
+end
