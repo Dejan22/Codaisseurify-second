@@ -1,15 +1,13 @@
 class SongsController < ApplicationController
-      before_action :set_song, only: :destroy
-
+  before_action :set_song, only: [:destroy]
 
     def index
-      @song = Song.find(params[:id])
-      @songs = @song.artist_id
-      # @songs = Song.all
+
+       @songs = Song.all
     end
 
     def show
-      
+
       @songs = Song.all
         @song = Song.find(params[:id])
     end
