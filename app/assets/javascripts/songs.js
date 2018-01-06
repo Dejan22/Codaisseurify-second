@@ -1,8 +1,6 @@
 function createSong(name) {
-  var artistShowId = $('#artist-id');
-  var artistId = artistShowId.data('id');
-  var newSong = {
-    name: name
+  var newSong = { name: name
+  var pathname = window.location.pathname + "/songs.json";
   };
 
   $.ajax({
@@ -15,12 +13,24 @@ function createSong(name) {
     dataType: "json"
   })
   .done(function(data) {
-    console.log(data);
-    var label = $('<label></label>')
-      .html(name);
-    var tableRow = $('<tr class="song"></tr>')
-      .append($('<tr>').append(label));
-    $("#songList").append(tableRow);
+    var songId = data.id;
+
+    var songTitle = $('<td></td>')
+      .html(title);
+
+    var deleteButton = $('<a class="btn btn-danger glyphicon glyphicon-trash song-delete"></a>')
+    .attr('id', "song-" + songId)
+
+    var deleteSong = $('<td style="text-align: right;"></td>')
+    .append(deleteButton)
+
+    var tableRow = $('<tr></td>')
+      .attr('data-id', songId)
+      .append(songTitle).append(deleteSong);
+
+    $("#artistSongs").append( tableRow );
+
+bindClick(songId)
   })
 
   .fail(function(error) {
@@ -70,8 +80,8 @@ function deleteAllSongs(event) {
 
 function submitSong(event) {
   event.preventDefault();
-  var name = $("#new-song").val();
-  createSong(name);
+  var title = $("#new-song").val();
+  createSong(title);
   $("#new-song").val(null);
 }
 
