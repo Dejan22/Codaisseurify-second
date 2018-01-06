@@ -11,6 +11,20 @@ def show
   @songs = @artist.songs
 end
 
+def new
+    @artist = Artist.new
+  end
+
+def create
+    @artist = Artist.new(artist_params)
+
+    if @artist.save
+        redirect_to @artist, notice: "Artist created"
+    else
+      render :new
+    end
+end
+
 def destroy
 end
 
