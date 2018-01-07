@@ -8,6 +8,8 @@ class ArtistsController < ApplicationController
   def show
     @artists = Artist.all
     @song = Song.new
+
+
   end
 
   def destroy

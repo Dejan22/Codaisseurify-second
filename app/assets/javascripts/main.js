@@ -5,7 +5,7 @@ function createSong(name) {
 
   $.ajax({
     type: "POST",
-    url: "/artists/" + artistId + "/songs",
+    url: pathname,
     data: JSON.stringify({
       song: newSong,
     }),
@@ -13,6 +13,7 @@ function createSong(name) {
     dataType: "json"
   })
   .done(function(data) {
+
     var songId = data.id;
 
     var songTitle = $('<td></td>')
@@ -30,23 +31,24 @@ function createSong(name) {
 
     $("#artistSongs").append( tableRow );
 
-bindClick(songId)
+    bindClick(songId)
   })
 
   .fail(function(error) {
-    console.log(error)
     error_message = error.responseJSON.name[0];
     showError(error_message);
   });
 }
 
 function showError(message) {
-  $("#songList").addClass("error");
-  var errorElement = $("<small></small>")
+    var errorElement = $('<span class= "help-blocg"></span>')
     .attr("id", "error_message")
     .addClass("error")
     .html(message);
-  $(errorElement).appendTo('form .field');
+
+    $("#formgroup-song")
+      .addClass("has-error")
+      .append(errorHelpBlock);
 }
 
 function deleteSong(songId) {
@@ -83,6 +85,11 @@ function submitSong(event) {
   var title = $("#new-song").val();
   createSong(title);
   $("#new-song").val(null);
+}
+
+function resetErrors() {
+  $("#error_message").remove();
+  $("#formgroup-song").removeClass("has-error");
 }
 
 $(document).ready(function() {
