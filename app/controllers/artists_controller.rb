@@ -1,65 +1,33 @@
 class ArtistsController < ApplicationController
  before_action :set_artist, except: [:index, :new, :create, :delete_all_songs]
 
- def index
-   @artists = Artist.all
- end
+  def index
+     @artists = Artist.all
+  end
 
- def show
-   @song = Song.new
-   @song.artist_id = @artist.id
- end
+  def show
+    @artists = Artist.all
+    @song = Song.new
+  end
 
- def new
-   @artist = Artist.new
- end
+  def destroy
+    @artist.destroy
+      respond_to do |format|
+        if @artist.destroy
+          format.json { render :show, status: :destroyed, location: @artist }
+        else
+          format.json { render json: @artist.errors, status: :unprocessable_entity }
+        end
+      end
+  end
 
- def create
-   @artist = Artist.new(artist_params)
+private
 
-   if @artist.save
-     @artist.create_image(source: source_params)
+  def set_artist
+    @artist = Artist.find(params[:id])
+  end
 
-     redirect_to @artist, notice: "Artist created"
-   else
-     render :new
-   end
- end
-
- def edit; end
-
- def update
-   if @artist.update(artist_params)
-     @artist.create_image(source: source_params)
-
-     redirect_to @artist, notice: "Artist updated"
-   else
-     render :edit
-   end
- end
-
- def destroy
-   @artist.destroy
-
-   redirect_to root_path, notice: "Delete success"
- end
-
- private
-
- def set_artist
-   @artist = Artist.find(params[:id])
- end
-
- def source_params
-   params[:source].present? ? params.require(:source) : []
- end
-
- def artist_params
-   params
-     .require(:artist)
-     .permit(
-       :name
-     )
- end
-
+  def source_params
+    params[:source].present? ? params.require(:source) : []
+  end
 end
