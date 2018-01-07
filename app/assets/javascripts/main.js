@@ -41,7 +41,7 @@ function createSong(name) {
 }
 
 function showError(message) {
-    var errorElement = $('<span class= "help-blocg"></span>')
+    var errorElement = $('<span class= "help-block"></span>')
     .attr("id", "error_message")
     .addClass("error")
     .html(message);
